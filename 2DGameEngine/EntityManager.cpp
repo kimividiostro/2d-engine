@@ -1,7 +1,7 @@
 #include "EntityManager.h"
 
-std::shared_ptr<Entity> EntityManager::CreateEntity(const std::string& name, EntityType type) {
-	auto entity = std::shared_ptr<Entity>(new Entity(++m_totalEntitiesCreated, name, type));
+std::shared_ptr<Entity> EntityManager::CreateEntity(EntityType type) {
+	auto entity = std::shared_ptr<Entity>(new Entity(++m_totalEntitiesCreated, type));
 	m_entitiesToBeAdded.push_back(entity);
 	m_entityMap[type].push_back(entity);
 	return entity;
@@ -20,13 +20,24 @@ void EntityManager::RemoveEntity(std::shared_ptr<Entity> entity) {
 }
 
 void EntityManager::Update() {
-	for (auto entity : m_entitiesToBeAdded) {
-		m_entities.push_back(entity);
+	if (m_entitiesToBeAdded.size() > 0) {
+		for (auto entity : m_entitiesToBeAdded) {
+			m_entities.push_back(entity);
+		}
+		m_entitiesToBeAdded.clear();
 	}
-	m_entitiesToBeAdded.clear();
 
+	//TODO: Optimize removing so it doesn't have to loop through all entities each frame
 	auto newEnd = std::remove_if(m_entities.begin(), m_entities.end(), [](std::shared_ptr<Entity> entity) {
 		return !entity->isActive();
 	});
 	m_entities.erase(newEnd, m_entities.end());
+
+	for (auto& tag : m_entityMap) {
+		auto& entities = tag.second;
+		auto newEnd = std::remove_if(entities.begin(), entities.end(), [](std::shared_ptr<Entity> entity) {
+			return !entity->isActive();
+			});
+		entities.erase(newEnd, entities.end());
+	}
 }

@@ -15,7 +15,7 @@ public:
 	EntityMap m_entityMap;
 	int m_totalEntitiesCreated = 0;
 
-	std::shared_ptr<Entity> CreateEntity(const std::string& name, EntityType type = DEFAULT);
+	std::shared_ptr<Entity> CreateEntity(EntityType type = DEFAULT);
 	void RemoveEntity(std::shared_ptr<Entity> entity);
 	EntityVector& GetAllEntities();
 	EntityVector& GetEntitiesByType(EntityType type);

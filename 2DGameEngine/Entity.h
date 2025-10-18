@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Components.h"
 
 enum EntityType {
 	DEFAULT,
@@ -13,15 +14,19 @@ class Entity {
 	friend class EntityManager;
 
 	const int m_id;
-	const std::string m_name;
 	EntityType m_type = DEFAULT;
 	bool m_active = true;
-	Entity(int id, const std::string& name, EntityType type);
+	Entity(int id, EntityType type);
+	void destroy();
 
 public:
 	bool isActive();
 	const EntityType getType();
-	const std::string& getName();
 	const int getId();
-	void destroy();
+
+	std::shared_ptr<CTransform> transform;
+	std::shared_ptr<CShape> shape;
+	std::shared_ptr<CScore> score;
+	std::shared_ptr<CRotation> rotation;
+	std::shared_ptr<CBoundingBox> boundingBox;
 };

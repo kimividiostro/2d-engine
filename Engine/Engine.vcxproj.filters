@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{058aef29-0238-4a72-8f2e-641369b9c307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Entities">
+      <UniqueIdentifier>{bd7ad8a2-32e4-40c6-88e3-023341e1e062}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Math">
+      <UniqueIdentifier>{84aa4411-6ccc-4efd-957b-7c9c24b97e06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{8b25435c-26f6-4c2e-b5f9-f787c50c7ad1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{335a440b-e0ee-4b66-a3fc-25370fe503c6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\2DGameEngine\EntityManager.cpp">
+      <Filter>Core\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\2DGameEngine\Entity.cpp">
+      <Filter>Core\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\2DGameEngine\Vec2.cpp">
+      <Filter>Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\2DGameEngine\Entity.h">
+      <Filter>Core\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\2DGameEngine\EntityManager.h">
+      <Filter>Core\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\2DGameEngine\Vec2.h">
+      <Filter>Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\2DGameEngine\Header.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\2DGameEngine\Game.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,7 +1,7 @@
 #include "Entity.h"
 
-Entity::Entity(int id, const std::string& name, EntityType type) 
-    : m_id(id), m_name(name), m_type(type) {
+Entity::Entity(int id, EntityType type) 
+    : m_id(id), m_type(type) {
 }
 
 bool Entity::isActive() {
@@ -14,10 +14,6 @@ void Entity::destroy() {
 
 const EntityType Entity::getType() {
     return m_type;
-}
-
-const std::string& Entity::getName() {
-    return m_name;
 }
 
 const int Entity::getId() {
