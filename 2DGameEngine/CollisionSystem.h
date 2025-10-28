@@ -11,5 +11,7 @@ static class CollisionSystem {
 public:
 	static bool InBoundsOfWindow(const int screenWidth, const int screenHeight, const std::shared_ptr<Entity>& entity);
 	static CollisionInfo CheckEntityCollision(const std::shared_ptr<Entity>& entity1, const std::shared_ptr<Entity>& entity2);
+	static Vec2 GetPreviousOverlap(const std::shared_ptr<Entity>& entity1, const std::shared_ptr<Entity>& entity2);
 	static void ResetEntityPositionInsideWindow(const int screenWidth, const int screenHeight, std::shared_ptr<Entity>& entity);
+	static void ResolveCollision(std::shared_ptr<Entity> entity1, CollisionInfo collisionInfo);
 };

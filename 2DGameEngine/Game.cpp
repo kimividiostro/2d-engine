@@ -33,37 +33,38 @@ void Game::run()
 				projectile->shape = std::make_shared<CShape>(5, 5, sf::Color::Yellow, sf::Color::White, 1.0f);
 				projectile->boundingBox = std::make_shared<CBoundingBox>(5, 5);
 				projectile->transform = std::make_shared<CTransform>(playerPosition, bulletPath, 0);
-				Vec2 randVec = NumberGeneratorSystem::GenerateEntityPositionInsideWindow(m_screenWidth, m_screenHeight, projectile);
-				std::cout << "random coordinates: " << randVec.x << ", " << randVec.y << std::endl;
 			}
 			else {
 				projectile = m_entityManager.GetEntitiesByType(PROJECTILE)[0];
 			}
-
-			if (!CollisionSystem::InBoundsOfWindow(m_screenWidth, m_screenHeight, projectile)) {
-				m_entityManager.RemoveEntity(projectile);
-			}
 		}
 
 		for (auto entity : m_entityManager.GetAllEntities()) {
-			if (entity->getType() == ENEMY) {
-				auto player = m_entityManager.GetEntitiesByType(PLAYER)[0];
-				auto collisionInfo = CollisionSystem::CheckEntityCollision(player, entity);
-				if (collisionInfo.collided) {
-					player->transform->position += collisionInfo.overlap;
-				}
-			}
-			// Update entity positions based on their velocity
 			if (entity->transform) {
+				if (entity->getType() == ENEMY) {
+					auto player = m_entityManager.GetEntitiesByType(PLAYER)[0];
+					auto collisionInfo = CollisionSystem::CheckEntityCollision(player, entity);
+					if (collisionInfo.collided) {
+						CollisionSystem::ResolveCollision(player, collisionInfo);
+					}
+				}
+
+				// Update entity positions based on their velocity
+				entity->transform->previousPosition = entity->transform->position;
 				entity->transform->position += entity->transform->velocity;
+				// Update SFML shape position
+				if (entity->transform && entity->shape) {
+					entity->shape->shape.setPosition(entity->transform->position.x, entity->transform->position.y);
+				}
+
 				if (!CollisionSystem::InBoundsOfWindow(m_screenWidth, m_screenHeight, entity)) {
+					if (entity->getType() == PROJECTILE) {
+						m_entityManager.RemoveEntity(entity);
+					}
 					if (entity->getType() == ENEMY) {
-						CollisionSystem::ResetEntityPositionInsideWindow(m_screenWidth, m_screenHeight, entity);
-						entity->transform->velocity = entity->transform->velocity * -1;
+						entity->transform->velocity *= -1;
 					}
-					else if (entity->getType() == PLAYER) {
-						entity->transform->position -= entity->transform->velocity;
-					}
+					CollisionSystem::ResetEntityPositionInsideWindow(m_screenWidth, m_screenHeight, entity);
 				}
 
 				// Player movement based on input
@@ -76,10 +77,6 @@ void Game::run()
 				}
 			}
 
-			// Update SFML shape position
-			if (entity->transform && entity->shape) {
-				entity->shape->shape.setPosition(entity->transform->position.x, entity->transform->position.y);
-			}
 
 			// Rotate shape
 			if (entity->rotation)
@@ -92,7 +89,6 @@ void Game::run()
 			if (entity->getType() == PROJECTILE) {
 				for (auto enemy : m_entityManager.GetEntitiesByType(ENEMY)) {
 					if(CollisionSystem::CheckEntityCollision(enemy, entity).collided) {
-						// Collision detected
 						m_entityManager.RemoveEntity(enemy);
 						m_entityManager.RemoveEntity(entity);
 						m_inputState.shoot = false;
@@ -169,5 +165,4 @@ void Game::spawnEnemy() {
 	auto position = NumberGeneratorSystem::GenerateEntityPositionInsideWindow(m_screenWidth, m_screenHeight, enemy);
 	enemy->transform = std::make_shared<CTransform>(position, Vec2(0, 0), 0);
 	enemy->boundingBox = std::make_shared<CBoundingBox>(20, 20);
-	//enemy->rotation = std::make_shared<CRotation>(2); // Rotate 2 degrees per update
 }

@@ -5,6 +5,7 @@
 
 struct CTransform {
 	Vec2 position;
+	Vec2 previousPosition;
 	Vec2 velocity;
 	int angle = 0;
 	CTransform(const Vec2& position, const Vec2& velocity, int angle) : position(position), velocity(velocity), angle(angle)
@@ -17,8 +18,8 @@ struct CShape {
 	CShape(int width, int height, const sf::Color& fillColor, const sf::Color& outlineColor, float outlineThickness) {
 		shape.setSize(sf::Vector2f(width,height));
 		shape.setFillColor(fillColor);
-		shape.setOutlineColor(outlineColor);
-		shape.setOutlineThickness(outlineThickness);
+		//shape.setOutlineColor(outlineColor);
+		//shape.setOutlineThickness(outlineThickness);
 		shape.setOrigin(width/2, height/2); // Center the origin
 	}
 };
