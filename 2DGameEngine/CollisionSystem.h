@@ -2,9 +2,17 @@
 #include "Vec2.h"
 #include "Entity.h"
 
+enum Axis {
+	X_AXIS,
+	Y_AXIS,
+	NONE
+};
+
 struct CollisionInfo {
 	bool collided = false;
 	Vec2 overlap = { 0,0 };
+	Axis axis = NONE;
+	Vec2 normal = { 0,0 };
 };
 
 static class CollisionSystem {

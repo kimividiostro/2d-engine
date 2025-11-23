@@ -15,6 +15,7 @@ class Game {
 	void processInput();
 	void render();
 	void spawnEnemy();
+	void createMap();
 
 	public:
 

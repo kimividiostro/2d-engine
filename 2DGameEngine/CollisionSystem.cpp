@@ -9,32 +9,38 @@ bool CollisionSystem::InBoundsOfWindow(const int screenWidth, const int screenHe
 }
 
 CollisionInfo CollisionSystem::CheckEntityCollision(const std::shared_ptr<Entity>& e1, const std::shared_ptr<Entity>& e2) {
-	int dx = abs(e1->transform->position.x - e2->transform->position.x);
-	int dy = abs(e1->transform->position.y - e2->transform->position.y);
+	CollisionInfo info;
 	
-	int ox = e1->boundingBox->halfWidth + e2->boundingBox->halfWidth - dx;
-	int oy = e1->boundingBox->halfHeight + e2->boundingBox->halfHeight - dy;
+	float dx = e1->transform->position.x - e2->transform->position.x;
+	float dy = e1->transform->position.y - e2->transform->position.y;
+
+	float ox = e1->boundingBox->halfWidth + e2->boundingBox->halfWidth - std::fabs(dx);
+	float oy = e1->boundingBox->halfHeight + e2->boundingBox->halfHeight - std::fabs(dy);
+
+	if (ox > 0 && oy > 0) {
+		info.collided = true;
+		info.overlap = { ox, oy };
+		info.axis = ox < oy ? X_AXIS: Y_AXIS;
+		info.normal = {
+			(dx > 0 ? 1.f : -1.f),
+			(dy > 0 ? 1.f : -1.f)
+		};
+	}
 	
-	return { ox > 0 && oy > 0, Vec2(ox, oy) };
+	return info;
 }
 
 void CollisionSystem::ResolveCollision(std::shared_ptr<Entity> entity, CollisionInfo collisionInfo) {
-	float x = 0;
-	if (entity->transform->position.x > entity->transform->previousPosition.x) {
-		x = collisionInfo.overlap.x * -1;
+	if (collisionInfo.axis == X_AXIS)
+	{
+		entity->transform->position.x += collisionInfo.overlap.x * collisionInfo.normal.x;
+		entity->transform->velocity.x = 0;
 	}
-	else if (entity->transform->position.x < entity->transform->previousPosition.x) {
-		x = collisionInfo.overlap.x;
+	else if (collisionInfo.axis == Y_AXIS)
+	{
+		entity->transform->position.y += collisionInfo.overlap.y * collisionInfo.normal.y;
+		entity->transform->velocity.y = 0;
 	}
-	float y = 0;
-	if (entity->transform->position.y > entity->transform->previousPosition.y) {
-		y = collisionInfo.overlap.y * -1;
-	}
-	else if (entity->transform->position.y < entity->transform->previousPosition.y) {
-		y = collisionInfo.overlap.y;
-	}
-	Vec2 resolve = { x, y };
-	entity->transform->position += resolve;
 }
 
 Vec2 CollisionSystem::GetPreviousOverlap(const std::shared_ptr<Entity>& e1, const std::shared_ptr<Entity>& e2) {

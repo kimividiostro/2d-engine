@@ -7,7 +7,10 @@ enum EntityType {
 	PLAYER,
 	ENEMY,
 	PROJECTILE,
-	POWERUP
+	POWERUP,
+	FLOOR,
+	WALL,
+	PLATFORM
 };
 
 class Entity {
