@@ -32,4 +32,5 @@ public:
 	std::shared_ptr<CScore> score;
 	std::shared_ptr<CRotation> rotation;
 	std::shared_ptr<CBoundingBox> boundingBox;
+	std::shared_ptr<CPhysics> physics;
 };

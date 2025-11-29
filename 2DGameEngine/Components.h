@@ -39,3 +39,8 @@ struct CBoundingBox {
 
 	CBoundingBox(int width, int height) : width(width), height(height), halfWidth(width / 2), halfHeight(height / 2) {}
 };
+
+struct CPhysics {
+	float mass = 0.0f;
+	CPhysics(float mass) : mass(mass) {}
+};
