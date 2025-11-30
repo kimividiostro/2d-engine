@@ -57,6 +57,7 @@ void Game::run()
 			if (entity->state) {
 				auto newState = entity->state->handleInput(entity, m_commands);
 				if (newState) {
+					// TODO: add state pooling to resue states
 					entity->state->exit(entity);
 					entity->state = newState;
 					entity->state->enter(entity);
@@ -134,13 +135,12 @@ void Game::render() {
 void Game::processInput() {
 	sf::Event event;
 
+	m_commands.clear();
 	while (m_window.pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)
 			m_window.close();
-		
-		m_commands.clear();
-		
+			
 		auto commandName = m_inputMap[event.key.code];
 		if (commandName == 0) {
 			continue;
@@ -172,7 +172,7 @@ void Game::createMap() {
 	floor->transform = std::make_shared<CTransform>(Vec2(400, 500), Vec2(0,0), 0);
 	floor->boundingBox = std::make_shared<CBoundingBox>(800, 100);
 	auto wall = m_entityManager.CreateEntity(WALL);
-	wall->shape = std::make_shared<CShape>(50, 200, sf::Color::Magenta, sf::Color::White, 2.0f);
-	wall->transform = std::make_shared<CTransform>(Vec2(600, 350), Vec2(0, 0), 0);
-	wall->boundingBox = std::make_shared<CBoundingBox>(50, 200);
+	wall->shape = std::make_shared<CShape>(50, 150, sf::Color::Magenta, sf::Color::White, 2.0f);
+	wall->transform = std::make_shared<CTransform>(Vec2(600, 400), Vec2(0, 0), 0);
+	wall->boundingBox = std::make_shared<CBoundingBox>(50, 150);
 }

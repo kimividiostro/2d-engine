@@ -134,6 +134,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="IdleState.cpp" />
     <ClCompile Include="InputState.h" />
+    <ClCompile Include="JumpingState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="IdleState.h" />
+    <ClInclude Include="JumpingState.h" />
     <ClInclude Include="MovingState.h" />
     <ClInclude Include="NumberGeneratorSystem.h" />
     <ClInclude Include="State.h" />

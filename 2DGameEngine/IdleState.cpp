@@ -1,5 +1,6 @@
 #include "IdleState.h"
 #include "MovingState.h"
+#include "JumpingState.h"
 
 void IdleState::enter(std::shared_ptr<Entity>& owner) {
 	std::cout << "Entered idle state...";
@@ -7,7 +8,7 @@ void IdleState::enter(std::shared_ptr<Entity>& owner) {
 }
 
 std::shared_ptr<State> IdleState::handleInput(std::shared_ptr<Entity>& owner, std::vector<Command>& commands) {
-	for(const Command& command : commands)
+ 	for(const Command& command : commands)
 	{
 		if (command.m_type == START) {
 			switch (command.m_name) {
@@ -15,6 +16,8 @@ std::shared_ptr<State> IdleState::handleInput(std::shared_ptr<Entity>& owner, st
 				return std::make_shared<MovingState>(false);
 			case MOVE_RIGHT:
 				return std::make_shared<MovingState>(true);
+			case JUMP:
+				return std::make_shared<JumpingState>(false);
 			default:
 				break;
 			}
