@@ -2,6 +2,8 @@
 #include <string>
 #include "Components.h"
 
+class State;
+
 enum EntityType {
 	DEFAULT,
 	PLAYER,
@@ -26,6 +28,7 @@ public:
 	bool isActive();
 	const EntityType getType();
 	const int getId();
+	std::shared_ptr<State> state;
 
 	std::shared_ptr<CTransform> transform;
 	std::shared_ptr<CShape> shape;

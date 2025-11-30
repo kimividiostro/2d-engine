@@ -2,10 +2,14 @@
 #include "EntityManager.h"
 #include <SFML/Graphics.hpp>
 #include "InputState.h"
+#include "Command.h"
 
 class Game {
 	EntityManager m_entityManager;
 	sf::RenderWindow m_window;
+	std::map<int, CommandName> m_inputMap;
+	std::vector<Command> m_commands;
+
 	InputState m_inputState;
 
 	int m_screenWidth = 800;

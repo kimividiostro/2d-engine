@@ -129,22 +129,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Command.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="IdleState.cpp" />
     <ClCompile Include="InputState.h" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
+    <ClCompile Include="MovingState.cpp" />
     <ClCompile Include="NumberGeneratorSystem.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Command.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="CollisionSystem.h" />
+    <ClInclude Include="IdleState.h" />
+    <ClInclude Include="MovingState.h" />
     <ClInclude Include="NumberGeneratorSystem.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,10 +2,17 @@
 #include <iostream>
 #include "CollisionSystem.h"
 #include "NumberGeneratorSystem.h"
+#include "IdleState.h"
 
 Game::Game() {
 	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight), "My Game");
 	m_window.setFramerateLimit(m_fps);
+	
+	m_inputMap[sf::Keyboard::Left] = MOVE_LEFT;
+	m_inputMap[sf::Keyboard::Right] = MOVE_RIGHT;
+	m_inputMap[sf::Keyboard::Space] = JUMP;
+	m_inputMap[sf::Mouse::Left] = SHOOT;
+
 	m_inputState = InputState();
 
 	auto player = m_entityManager.CreateEntity(PLAYER);
@@ -13,6 +20,7 @@ Game::Game() {
 	player->shape = std::make_shared<CShape>(30, 30, sf::Color::Green, sf::Color::White, 2.0f);
 	player->boundingBox = std::make_shared<CBoundingBox>(30, 30);
 	player->physics = std::make_shared<CPhysics>(5.0f);
+	player->state = std::make_shared<IdleState>();
 	//spawnEnemy();
 	createMap();
 }
@@ -24,7 +32,7 @@ void Game::run()
 	while (m_window.isOpen())
 	{
 		float deltaTime = clock.restart().asSeconds();
-		std::cout << "DeltaTime: " << deltaTime << "ms" << std::endl;
+		//std::cout << "DeltaTime: " << deltaTime << "ms" << std::endl;
 		processInput();
 		m_entityManager.Update();
 		if (m_inputState.shoot)
@@ -46,19 +54,22 @@ void Game::run()
 		}
 
 		for (auto entity : m_entityManager.GetAllEntities()) {
-			if (entity->transform) {
-				// Player movement based on input
-				if (entity->getType() == PLAYER) {
-					entity->transform->velocity = { 0,0 };
-					/*if (m_inputState.up) entity->transform->velocity.y = -5;
-					if (m_inputState.down) entity->transform->velocity.y = 5;*/
-					if (m_inputState.left) entity->transform->velocity.x = -150;
-					if (m_inputState.right) entity->transform->velocity.x = 150;
+			if (entity->state) {
+				auto newState = entity->state->handleInput(entity, m_commands);
+				if (newState) {
+					entity->state->exit(entity);
+					entity->state = newState;
+					entity->state->enter(entity);
+				}
+				newState = entity->state->update(entity, deltaTime);
+				if (newState) {
+					entity->state->exit(entity);
+					entity->state = newState;
+					entity->state->enter(entity);
 				}
 
-				// Update entity positions based on their velocity
-				entity->transform->previousPosition = entity->transform->position;
-				entity->transform->position += entity->transform->velocity * deltaTime;
+			}
+			if (entity->transform) {
 
 				if (entity->getType() != PLAYER) {
 					auto player = m_entityManager.GetEntitiesByType(PLAYER)[0];
@@ -67,12 +78,6 @@ void Game::run()
 						CollisionSystem::ResolveCollision(player, collisionInfo);
 					}
 				}
-
-				/*if (entity->getType() == PLAYER) {
-					std::cout << "Transform XY: { " << entity->transform->position.x << ", " << entity->transform->position.y << std::endl;
-
-					std::cout << "Shape XY: { " << entity->shape->shape.getPosition().x << ", " << entity->shape->shape.getPosition().y << std::endl;
-				}*/
 
 				if (!CollisionSystem::InBoundsOfWindow(m_screenWidth, m_screenHeight, entity)) {
 					if (entity->getType() == PROJECTILE) {
@@ -133,41 +138,22 @@ void Game::processInput() {
 	{
 		if (event.type == sf::Event::Closed)
 			m_window.close();
+		
+		m_commands.clear();
+		
+		auto commandName = m_inputMap[event.key.code];
+		if (commandName == 0) {
+			continue;
+		}
+
 		if (event.type == sf::Event::KeyPressed) {
-			if (event.key.code == sf::Keyboard::Up) m_inputState.up = true;
-			if (event.key.code == sf::Keyboard::Down) m_inputState.down = true;
-			if (event.key.code == sf::Keyboard::Left) m_inputState.left = true;
-			if (event.key.code == sf::Keyboard::Right) m_inputState.right = true;
-			if (event.key.code == sf::Keyboard::Space) m_inputState.jump = true;
-			
-			std::cout << "Up pressed: " << m_inputState.up << ", Down pressed: " << m_inputState.down
-				<< ", Left pressed: " << m_inputState.left << ", Right pressed: " << m_inputState.right
-				<< ", Action pressed: " << m_inputState.action << std::endl;
+			Command command(START, commandName);
+			m_commands.push_back(command);
 		}
 
 		if (event.type == sf::Event::KeyReleased) {
-			if (event.key.code == sf::Keyboard::Up) m_inputState.up = false;
-			if (event.key.code == sf::Keyboard::Down) m_inputState.down = false;
-			if (event.key.code == sf::Keyboard::Left) m_inputState.left = false;
-			if (event.key.code == sf::Keyboard::Right) m_inputState.right = false;
-			if (event.key.code == sf::Keyboard::Space) m_inputState.jump = false;
-			std::cout << "Up pressed: " << m_inputState.up << ", Down pressed: " << m_inputState.down
-				<< ", Left pressed: " << m_inputState.left << ", Right pressed: " << m_inputState.right
-				<< ", Action pressed: " << m_inputState.action << std::endl;
-		}
-
-		if(event.type == sf::Event::MouseButtonPressed) {
-			if(event.mouseButton.button == sf::Mouse::Left) {
-				std::cout << "Left mouse button pressed at (" << event.mouseButton.x << ", " << event.mouseButton.y << ")" << std::endl;
-				m_inputState.shoot = true;
-			}
-		}
-
-		if(event.type == sf::Event::MouseButtonReleased) {
-			if(event.mouseButton.button == sf::Mouse::Left) {
-				std::cout << "Left mouse button released at (" << event.mouseButton.x << ", " << event.mouseButton.y << ")" << std::endl;
-				m_inputState.shoot = false;
-			}
+			Command command(END, commandName);
+			m_commands.push_back(command);
 		}
 	}
 }
