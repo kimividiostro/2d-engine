@@ -4,7 +4,7 @@
 
 void IdleState::enter(std::shared_ptr<Entity>& owner) {
 	std::cout << "Entered idle state...";
-	owner->transform->velocity = { 0,0 };
+	owner->movement->velocity = { 0,0 };
 }
 
 std::shared_ptr<State> IdleState::handleInput(std::shared_ptr<Entity>& owner, std::vector<Command>& commands) {
@@ -13,9 +13,9 @@ std::shared_ptr<State> IdleState::handleInput(std::shared_ptr<Entity>& owner, st
 		if (command.m_type == START) {
 			switch (command.m_name) {
 			case MOVE_LEFT:
-				return std::make_shared<MovingState>(false);
+				return std::make_shared<MovingState>(-1);
 			case MOVE_RIGHT:
-				return std::make_shared<MovingState>(true);
+				return std::make_shared<MovingState>(1);
 			case JUMP:
 				return std::make_shared<JumpingState>(false);
 			default:

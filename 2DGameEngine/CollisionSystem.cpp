@@ -34,12 +34,12 @@ void CollisionSystem::ResolveCollision(std::shared_ptr<Entity> entity, Collision
 	if (collisionInfo.axis == X_AXIS)
 	{
 		entity->transform->position.x += collisionInfo.overlap.x * collisionInfo.normal.x;
-		entity->transform->velocity.x = 0;
+		entity->movement->velocity.x = 0;
 	}
 	else if (collisionInfo.axis == Y_AXIS)
 	{
 		entity->transform->position.y += collisionInfo.overlap.y * collisionInfo.normal.y;
-		entity->transform->velocity.y = 0;
+		entity->movement->velocity.y = 0;
 	}
 }
 

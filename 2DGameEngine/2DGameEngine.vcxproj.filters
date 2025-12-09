@@ -76,6 +76,9 @@
     <ClCompile Include="JumpingState.cpp">
       <Filter>Game\States\Player</Filter>
     </ClCompile>
+    <ClCompile Include="FallingState.cpp">
+      <Filter>Game\States\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h">
@@ -112,6 +115,9 @@
       <Filter>Game\States\Player</Filter>
     </ClInclude>
     <ClInclude Include="JumpingState.h">
+      <Filter>Game\States\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="FallingState.h">
       <Filter>Game\States\Player</Filter>
     </ClInclude>
   </ItemGroup>

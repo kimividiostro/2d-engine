@@ -6,9 +6,7 @@
 struct CTransform {
 	Vec2 position;
 	Vec2 previousPosition;
-	Vec2 velocity;
-	int angle = 0;
-	CTransform(const Vec2& position, const Vec2& velocity, int angle) : position(position), velocity(velocity), angle(angle)
+	CTransform(const Vec2& position) : position(position) 
 	{}
 };
 
@@ -40,7 +38,16 @@ struct CBoundingBox {
 	CBoundingBox(int width, int height) : width(width), height(height), halfWidth(width / 2), halfHeight(height / 2) {}
 };
 
-struct CPhysics {
-	float mass = 0.0f;
-	CPhysics(float mass) : mass(mass) {}
+struct CMovement {
+	Vec2 velocity;
+	float maxSpeed;
+	float acceleration;
+	float friction;
+	short direction;
+	float jumpVelocity;
+	float gravity;
+	bool isOnGround;
+
+	CMovement(Vec2 velocity, float maxSpeed = 0, float acceleration = 0, float friction = 0, short direction = 0, float jumpVelocity = 0, float gravity = 0) 
+		: velocity(velocity), maxSpeed(maxSpeed), acceleration(acceleration), friction(friction), direction(direction), jumpVelocity(jumpVelocity), gravity(gravity) { }
 };

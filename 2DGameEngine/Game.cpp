@@ -16,10 +16,11 @@ Game::Game() {
 	m_inputState = InputState();
 
 	auto player = m_entityManager.CreateEntity(PLAYER);
-	player->transform = std::make_shared<CTransform>(Vec2(m_screenWidth / 2, m_screenHeight / 2), Vec2(0, 0), 0);
+	player->transform = std::make_shared<CTransform>(Vec2(m_screenWidth / 2, m_screenHeight / 2));
 	player->shape = std::make_shared<CShape>(30, 30, sf::Color::Green, sf::Color::White, 2.0f);
 	player->boundingBox = std::make_shared<CBoundingBox>(30, 30);
-	player->physics = std::make_shared<CPhysics>(5.0f);
+	// TODO: Fix magic numbers
+	player->movement = std::make_shared<CMovement>(Vec2(0, 0), 150, 50, 30, 0,  -250, 100);
 	player->state = std::make_shared<IdleState>();
 	//spawnEnemy();
 	createMap();
@@ -28,7 +29,7 @@ Game::Game() {
 void Game::run()
 {
 	sf::Clock clock;
-	float gravity = 50.0f;
+	float gravity = 90.0f;
 	while (m_window.isOpen())
 	{
 		float deltaTime = clock.restart().asSeconds();
@@ -46,7 +47,8 @@ void Game::run()
 				auto bulletPath = (target - playerPosition).normalize() * 1000.0f;
 				projectile->shape = std::make_shared<CShape>(5, 5, sf::Color::Yellow, sf::Color::White, 1.0f);
 				projectile->boundingBox = std::make_shared<CBoundingBox>(5, 5);
-				projectile->transform = std::make_shared<CTransform>(playerPosition, bulletPath, 0);
+				projectile->transform = std::make_shared<CTransform>(playerPosition);
+				projectile->movement = std::make_shared<CMovement>(bulletPath);
 			}
 			else {
 				projectile = m_entityManager.GetEntitiesByType(PROJECTILE)[0];
@@ -57,7 +59,7 @@ void Game::run()
 			if (entity->state) {
 				auto newState = entity->state->handleInput(entity, m_commands);
 				if (newState) {
-					// TODO: add state pooling to resue states
+					// TODO: add state pooling to reuse states
 					entity->state->exit(entity);
 					entity->state = newState;
 					entity->state->enter(entity);
@@ -77,6 +79,13 @@ void Game::run()
 					auto collisionInfo = CollisionSystem::CheckEntityCollision(player, entity);
 					if (collisionInfo.collided) {
 						CollisionSystem::ResolveCollision(player, collisionInfo);
+						if (entity->getType() == FLOOR || (entity->getType() == WALL && collisionInfo.axis == Y_AXIS)) {
+							player->movement->velocity.y = 0;
+							player->movement->isOnGround = true;
+						}
+					}
+					else if (entity->getType() == FLOOR) {
+						player->movement->isOnGround = false;
 					}
 				}
 
@@ -85,13 +94,28 @@ void Game::run()
 						m_entityManager.RemoveEntity(entity);
 					}
 					if (entity->getType() == ENEMY) {
-						entity->transform->velocity *= -1;
+						entity->movement->velocity *= -1;
 					}
 					CollisionSystem::ResetEntityPositionInsideWindow(m_screenWidth, m_screenHeight, entity);
 				}
 
-				if (entity->physics) {
-					entity->transform->position.y += entity->physics->mass * gravity * deltaTime;
+				if (entity->movement) {
+					auto moveCom = entity->movement;
+					entity->transform->previousPosition = entity->transform->position;
+					if (moveCom->direction != 0) {
+						moveCom->velocity.x += moveCom->acceleration * moveCom->direction;
+						std::cout << "V: " << moveCom->velocity.x << std::endl;
+						if (fabs(moveCom->velocity.x) > moveCom->maxSpeed) {
+							moveCom->velocity.x = moveCom->maxSpeed * moveCom->direction;
+						}
+					}
+
+					if (!entity->movement->isOnGround) {
+						entity->movement->velocity.y += entity->movement->gravity * deltaTime;
+					}
+
+					entity->movement->velocity.y += entity->movement->gravity * deltaTime;
+					entity->transform->position += entity->movement->velocity * deltaTime;
 				}
 
 			}
@@ -162,17 +186,17 @@ void Game::spawnEnemy() {
 	auto enemy = m_entityManager.CreateEntity(ENEMY);
 	enemy->shape = std::make_shared<CShape>(20, 20, sf::Color::Red, sf::Color::White, 2.0f);
 	auto position = NumberGeneratorSystem::GenerateEntityPositionInsideWindow(m_screenWidth, m_screenHeight, enemy);
-	enemy->transform = std::make_shared<CTransform>(position, Vec2(0, 0), 0);
+	enemy->transform = std::make_shared<CTransform>(position);
 	enemy->boundingBox = std::make_shared<CBoundingBox>(20, 20);
 }
 
 void Game::createMap() {
 	auto floor = m_entityManager.CreateEntity(FLOOR);
 	floor->shape = std::make_shared<CShape>(800, 100, sf::Color::Magenta, sf::Color::White, 2.0f);
-	floor->transform = std::make_shared<CTransform>(Vec2(400, 500), Vec2(0,0), 0);
+	floor->transform = std::make_shared<CTransform>(Vec2(400, 500));
 	floor->boundingBox = std::make_shared<CBoundingBox>(800, 100);
 	auto wall = m_entityManager.CreateEntity(WALL);
 	wall->shape = std::make_shared<CShape>(50, 150, sf::Color::Magenta, sf::Color::White, 2.0f);
-	wall->transform = std::make_shared<CTransform>(Vec2(600, 400), Vec2(0, 0), 0);
+	wall->transform = std::make_shared<CTransform>(Vec2(600, 400));
 	wall->boundingBox = std::make_shared<CBoundingBox>(50, 150);
 }

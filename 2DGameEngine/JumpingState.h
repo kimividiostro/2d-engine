@@ -3,7 +3,7 @@
 
 class JumpingState : public State {
 private:
-	float m_jumpForce = 500.f;
+	float m_jumpForce = 1000.f;
 	bool m_moving = false;
 public:
 	JumpingState(bool moving);

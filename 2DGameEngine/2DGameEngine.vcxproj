@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="FallingState.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="IdleState.cpp" />
     <ClCompile Include="InputState.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Components.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="FallingState.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="IdleState.h" />
