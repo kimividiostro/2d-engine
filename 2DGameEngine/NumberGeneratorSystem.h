@@ -6,5 +6,5 @@
 
 static class NumberGeneratorSystem {
 public:
-	static Vec2 GenerateEntityPositionInsideWindow(int windowHeight, int windowWidth, const std::shared_ptr<Entity>& entity);
+	static Vec2 GenerateEntityPositionInsideWindow(int windowHeight, int windowWidth, const Entity& entity);
 };

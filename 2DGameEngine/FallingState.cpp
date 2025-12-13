@@ -1,19 +1,19 @@
 #include "FallingState.h"
 #include "IdleState.h"
 
-void FallingState::enter(std::shared_ptr<Entity>& owner) {
+void FallingState::enter(Entity& owner) {
 
 }
-std::shared_ptr<State> FallingState::handleInput(std::shared_ptr<Entity>& owner, std::vector<Command>& commands) {
+State* FallingState::handleInput(Entity& owner, std::vector<Command>& commands) {
 	return nullptr;
 }
-std::shared_ptr<State> FallingState::update(std::shared_ptr<Entity>& owner, float deltaTime) {
+State* FallingState::update(Entity& owner, float deltaTime) {
 	std::cout << "FAAAAAAAAAAALIIIIIIIIIIIIIIINGGGGGG";
-	if (owner->movement->isOnGround) {
-		return std::make_shared<IdleState>();
+	if (owner.movement->isOnGround) {
+		return new IdleState();
 	}
 	return nullptr;
 }
-void FallingState::exit(std::shared_ptr<Entity>& owner) {
+void FallingState::exit(Entity& owner) {
 
 }

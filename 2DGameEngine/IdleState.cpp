@@ -2,22 +2,22 @@
 #include "MovingState.h"
 #include "JumpingState.h"
 
-void IdleState::enter(std::shared_ptr<Entity>& owner) {
+void IdleState::enter(Entity& owner) {
 	std::cout << "Entered idle state...";
-	owner->movement->velocity = { 0,0 };
+	owner.movement->velocity = { 0,0 };
 }
 
-std::shared_ptr<State> IdleState::handleInput(std::shared_ptr<Entity>& owner, std::vector<Command>& commands) {
+State* IdleState::handleInput(Entity& owner, std::vector<Command>& commands) {
  	for(const Command& command : commands)
 	{
 		if (command.m_type == START) {
 			switch (command.m_name) {
 			case MOVE_LEFT:
-				return std::make_shared<MovingState>(-1);
+				return new MovingState(-1);
 			case MOVE_RIGHT:
-				return std::make_shared<MovingState>(1);
+				return new MovingState(1);
 			case JUMP:
-				return std::make_shared<JumpingState>(false);
+				return new JumpingState(false);
 			default:
 				break;
 			}
@@ -26,11 +26,11 @@ std::shared_ptr<State> IdleState::handleInput(std::shared_ptr<Entity>& owner, st
 	return nullptr;
 }
 
-std::shared_ptr<State> IdleState::update(std::shared_ptr<Entity>& owner, float deltaTime) {
+State* IdleState::update(Entity& owner, float deltaTime) {
 	std::cout << "Idling....";
 	return nullptr;
 }
 
-void IdleState::exit(std::shared_ptr<Entity>& owner) {
+void IdleState::exit(Entity& owner) {
 	std::cout << "Exited idle state...";
 }

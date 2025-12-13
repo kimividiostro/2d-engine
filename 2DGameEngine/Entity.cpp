@@ -19,3 +19,12 @@ const EntityType Entity::getType() {
 const int Entity::getId() {
     return m_id;
 }
+
+Entity::~Entity() {
+    delete transform;
+    delete shape;
+    delete score;
+    delete rotation;
+    delete boundingBox;
+    delete movement;
+}

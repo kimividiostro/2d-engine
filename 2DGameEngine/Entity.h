@@ -23,17 +23,18 @@ class Entity {
 	bool m_active = true;
 	Entity(int id, EntityType type);
 	void destroy();
+	~Entity();
 
 public:
 	bool isActive();
 	const EntityType getType();
 	const int getId();
-	std::shared_ptr<State> state;
+	State* state;
 
-	std::shared_ptr<CTransform> transform;
-	std::shared_ptr<CShape> shape;
-	std::shared_ptr<CScore> score;
-	std::shared_ptr<CRotation> rotation;
-	std::shared_ptr<CBoundingBox> boundingBox;
-	std::shared_ptr<CMovement> movement;
+	CTransform* transform;
+	CShape* shape;
+	CScore* score;
+	CRotation* rotation;
+	CBoundingBox* boundingBox;
+	CMovement* movement;
 };

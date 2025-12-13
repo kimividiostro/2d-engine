@@ -1,7 +1,7 @@
 #include "NumberGeneratorSystem.h"
 
-Vec2 NumberGeneratorSystem::GenerateEntityPositionInsideWindow(int windowWidth, int windowHeight, const std::shared_ptr<Entity>& entity) {
-	float entityRadius = entity->shape->shape.getSize().x / 2;
+Vec2 NumberGeneratorSystem::GenerateEntityPositionInsideWindow(int windowWidth, int windowHeight, const Entity& entity) {
+	float entityRadius = entity.shape->shape.getSize().x / 2;
 	int maxX = int(windowWidth - entityRadius);
 	int maxY = int(windowWidth - entityRadius);
 
