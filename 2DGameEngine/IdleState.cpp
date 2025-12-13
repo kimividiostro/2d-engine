@@ -3,8 +3,7 @@
 #include "JumpingState.h"
 
 void IdleState::enter(Entity& owner) {
-	std::cout << "Entered idle state...";
-	owner.movement->velocity = { 0,0 };
+	std::cout << "Entered IdleState..." << std::endl;
 }
 
 State* IdleState::handleInput(Entity& owner, std::vector<Command>& commands) {
@@ -17,7 +16,7 @@ State* IdleState::handleInput(Entity& owner, std::vector<Command>& commands) {
 			case MOVE_RIGHT:
 				return new MovingState(1);
 			case JUMP:
-				return new JumpingState(false);
+				return new JumpingState();
 			default:
 				break;
 			}
@@ -27,10 +26,9 @@ State* IdleState::handleInput(Entity& owner, std::vector<Command>& commands) {
 }
 
 State* IdleState::update(Entity& owner, float deltaTime) {
-	std::cout << "Idling....";
 	return nullptr;
 }
 
 void IdleState::exit(Entity& owner) {
-	std::cout << "Exited idle state...";
+	std::cout << "Exited IdleState..." << std::endl;
 }

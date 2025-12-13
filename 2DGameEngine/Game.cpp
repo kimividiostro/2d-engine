@@ -20,7 +20,14 @@ Game::Game() {
 	player->shape = new CShape(30, 30, sf::Color::Green, sf::Color::White, 2.0f);
 	player->boundingBox = new CBoundingBox(30, 30);
 	// TODO: Fix magic numbers
-	player->movement = new CMovement(Vec2(0, 0), 150, 50, 30, 0,  -250, 100);
+	player->movement = new CMovement(
+		Vec2(0, 0), // velocity
+		150, // max speed
+		50, // acceleration
+		300, // friction
+		0,  // direction -1, 0, 1
+		-300, // jump veolicty
+		150); // gravity
 	player->state = new IdleState();
 	//spawnEnemy();
 	createMap();
@@ -104,9 +111,23 @@ void Game::run()
 					entity->transform->previousPosition = entity->transform->position;
 					if (moveCom->direction != 0) {
 						moveCom->velocity.x += moveCom->acceleration * moveCom->direction;
-						std::cout << "V: " << moveCom->velocity.x << std::endl;
+						std::cout << "Direction" << moveCom->direction << std::endl;
 						if (fabs(moveCom->velocity.x) > moveCom->maxSpeed) {
 							moveCom->velocity.x = moveCom->maxSpeed * moveCom->direction;
+						}
+					}
+					else {
+						if (moveCom->velocity.x > 0) {
+							moveCom->velocity.x -= moveCom->friction * deltaTime;
+ 							if (moveCom->velocity.x < 0) {
+								moveCom->velocity.x = 0;
+							}
+						}
+						if (moveCom->velocity.x < 0) {
+							moveCom->velocity.x += moveCom->friction * deltaTime;
+							if (moveCom->velocity.x > 0) {
+								moveCom->velocity.x = 0;
+							}
 						}
 					}
 

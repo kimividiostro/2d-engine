@@ -2,13 +2,11 @@
 #include "IdleState.h"
 #include "FallingState.h"
 
-JumpingState::JumpingState(bool moving) : m_moving(moving) {}
-
 void JumpingState::enter(Entity& owner) 
 {
+    std::cout << "Entered JumpingState..." << std::endl;
     owner.movement->velocity.y = owner.movement->jumpVelocity;
     owner.movement->isOnGround = false;
-    std::cout << "Entered JumpingState...";
 }
 
 State* JumpingState::handleInput(Entity& owner, std::vector<Command>& commands)
@@ -55,13 +53,15 @@ State* JumpingState::update(Entity& owner, float deltaTime)
     if (owner.movement->isOnGround) {
         return new IdleState();
     }
+
     if (owner.movement->velocity.y > 0) {
         return new FallingState();
     }
+
     return nullptr;
 }
 
 void JumpingState::exit(Entity& owner)
 {
-    std::cout << "Exited JumpingState...";
+    std::cout << "Exited JumpingState..." << std::endl;
 }

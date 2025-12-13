@@ -7,6 +7,7 @@
 MovingState::MovingState(short direction) : m_direction(direction) {}
 
 void MovingState::enter(Entity& owner) {
+	std::cout << "Entered MovingState" << std::endl;
 	owner.movement->direction = m_direction;
 }
 
@@ -15,21 +16,7 @@ State* MovingState::handleInput(Entity& owner, std::vector<Command>& commands) {
 		if (command.m_type == START) {
 			switch (command.m_name) {
 			case JUMP:
-				return new JumpingState(true);
-			/*case MOVE_LEFT:
-				if (m_direction == -1) {
-					break;
-				}
-				m_direction = -1;
-				owner->movement->direction = m_direction;
-				break;
-			case MOVE_RIGHT:
-				if (m_direction == 1) {
-					break;
-				}
-				m_direction = 1;
-				owner->movement->direction = m_direction;
-				break;*/
+				return new JumpingState();
 			default:
 				break;
 			}
@@ -38,11 +25,13 @@ State* MovingState::handleInput(Entity& owner, std::vector<Command>& commands) {
 			switch (command.m_name) {
 			case MOVE_LEFT:
 				if (m_direction == -1) {
+					owner.movement->direction = 0;
 					return new IdleState();
 				}
 				break;
 			case MOVE_RIGHT:
-				if (m_direction == 1) { 
+				if (m_direction == 1) {
+					owner.movement->direction = 0;
 					return new IdleState(); 
 				}
 				break;
@@ -58,11 +47,10 @@ State* MovingState::update(Entity& owner, float deltaTime) {
 	if (!owner.movement->isOnGround) {
 		return new FallingState();
 	}
-	std::cout << "Moving... On ground: " << owner.movement->isOnGround;
 
 	return nullptr;
 }
 
 void MovingState::exit(Entity& owner) {
-	owner.movement->direction = 0;
+	std::cout << "Exited MovingState" << std::endl;
 }
