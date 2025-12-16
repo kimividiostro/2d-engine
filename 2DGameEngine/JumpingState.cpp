@@ -39,6 +39,7 @@ State* JumpingState::handleInput(Entity& owner, std::vector<Command>& commands)
                 }
                 break;
             case JUMP:
+                owner.movement->velocity.y *= 0.4f;
                 break;
             default:
                 break;
