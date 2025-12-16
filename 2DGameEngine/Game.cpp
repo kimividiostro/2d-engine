@@ -10,8 +10,8 @@ Game::Game() {
 	
 	m_inputMap[sf::Keyboard::Left] = MOVE_LEFT;
 	m_inputMap[sf::Keyboard::Right] = MOVE_RIGHT;
-	m_inputMap[sf::Keyboard::Space] = JUMP;
-	m_inputMap[sf::Mouse::Left] = SHOOT;
+	m_inputMap[sf::Keyboard::Up] = JUMP;
+	m_inputMap[sf::Keyboard::Space] = SHOOT;
 
 	m_inputState = InputState();
 
@@ -24,10 +24,10 @@ Game::Game() {
 		Vec2(0, 0), // velocity
 		150, // max speed
 		50, // acceleration
-		300, // friction
+		350, // friction
 		0,  // direction -1, 0, 1
-		-300, // jump veolicty
-		150); // gravity
+		-400, // jump veolicty
+		250); // gravity
 	player->state = new IdleState();
 	//spawnEnemy();
 	createMap();
@@ -111,7 +111,6 @@ void Game::run()
 					entity->transform->previousPosition = entity->transform->position;
 					if (moveCom->direction != 0) {
 						moveCom->velocity.x += moveCom->acceleration * moveCom->direction;
-						std::cout << "Direction" << moveCom->direction << std::endl;
 						if (fabs(moveCom->velocity.x) > moveCom->maxSpeed) {
 							moveCom->velocity.x = moveCom->maxSpeed * moveCom->direction;
 						}
@@ -216,8 +215,24 @@ void Game::createMap() {
 	floor->shape = new CShape(800, 100, sf::Color::Magenta, sf::Color::White, 2.0f);
 	floor->transform = new CTransform(Vec2(400, 500));
 	floor->boundingBox = new CBoundingBox(800, 100);
-	auto wall = m_entityManager.CreateEntity(WALL);
-	wall->shape = new CShape(50, 150, sf::Color::Magenta, sf::Color::White, 2.0f);
-	wall->transform = new CTransform(Vec2(600, 400));
-	wall->boundingBox = new CBoundingBox(50, 150);
+
+	auto wall1 = m_entityManager.CreateEntity(WALL);
+	wall1->shape = new CShape(50, 150, sf::Color::Magenta, sf::Color::White, 2.0f);
+	wall1->transform = new CTransform(Vec2(600, 400));
+	wall1->boundingBox = new CBoundingBox(50, 150);
+
+	auto wall2 = m_entityManager.CreateEntity(WALL);
+	wall2->shape = new CShape(50, 100, sf::Color::Magenta, sf::Color::White, 2.0f);
+	wall2->transform = new CTransform(Vec2(500, 400));
+	wall2->boundingBox = new CBoundingBox(50, 100);
+
+	auto wall3 = m_entityManager.CreateEntity(WALL);
+	wall3->shape = new CShape(50, 50, sf::Color::Magenta, sf::Color::White, 2.0f);
+	wall3->transform = new CTransform(Vec2(400, 450));
+	wall3->boundingBox = new CBoundingBox(50, 50);
+
+	auto wall4 = m_entityManager.CreateEntity(WALL);
+	wall3->shape = new CShape(50, 50, sf::Color::Magenta, sf::Color::White, 2.0f);
+	wall3->transform = new CTransform(Vec2(400, 300));
+	wall3->boundingBox = new CBoundingBox(50, 50);
 }
