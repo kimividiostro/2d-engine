@@ -17,6 +17,9 @@ State* FallingState::handleInput(Entity& owner, std::vector<Command>& commands) 
             case MOVE_RIGHT:
                 owner.movement->direction = 1;
                 break;
+            case JUMP:
+                owner.movement->jumpRequested = true;
+                break;
             default:
                 break;
             }
@@ -33,8 +36,6 @@ State* FallingState::handleInput(Entity& owner, std::vector<Command>& commands) 
                 if (owner.movement->direction == 1) {
                     owner.movement->direction = 0;
                 }
-                break;
-            case JUMP:
                 break;
             default:
                 break;

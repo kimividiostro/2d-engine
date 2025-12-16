@@ -44,6 +44,10 @@ State* MovingState::handleInput(Entity& owner, std::vector<Command>& commands) {
 }
 
 State* MovingState::update(Entity& owner, float deltaTime) {
+	if (owner.movement->jumpRequested) {
+		return new JumpingState();
+	}
+
 	if (!owner.movement->isOnGround) {
 		return new FallingState();
 	}

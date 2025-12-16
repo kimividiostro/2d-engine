@@ -48,6 +48,11 @@ struct CMovement {
 	float gravity;
 	bool isOnGround;
 
+	// Jump buffering
+	float jumpBufferTime = 0.2f;
+	float jumpBufferTimer = 0.0f;
+	float jumpRequested = false;
+
 	CMovement(Vec2 velocity, float maxSpeed = 0, float acceleration = 0, float friction = 0, short direction = 0, float jumpVelocity = 0, float gravity = 0) 
 		: velocity(velocity), maxSpeed(maxSpeed), acceleration(acceleration), friction(friction), direction(direction), jumpVelocity(jumpVelocity), gravity(gravity) { }
 };

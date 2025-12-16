@@ -24,7 +24,7 @@ Game::Game() {
 		Vec2(0, 0), // velocity
 		150, // max speed
 		50, // acceleration
-		350, // friction
+		400, // friction
 		0,  // direction -1, 0, 1
 		-400, // jump veolicty
 		250); // gravity
@@ -36,11 +36,10 @@ Game::Game() {
 void Game::run()
 {
 	sf::Clock clock;
-	float gravity = 90.0f;
 	while (m_window.isOpen())
 	{
 		float deltaTime = clock.restart().asSeconds();
-		//std::cout << "DeltaTime: " << deltaTime << "ms" << std::endl;
+
 		processInput();
 		m_entityManager.Update();
 		if (m_inputState.shoot)
@@ -130,8 +129,16 @@ void Game::run()
 						}
 					}
 
-					if (!entity->movement->isOnGround) {
-						entity->movement->velocity.y += entity->movement->gravity * deltaTime;
+					if (!moveCom->isOnGround) {
+						moveCom->velocity.y += moveCom->gravity * deltaTime;
+					}
+
+					if (moveCom->jumpRequested) {
+						moveCom->jumpBufferTimer += deltaTime;
+						if (moveCom->jumpBufferTimer > moveCom->jumpBufferTime) {
+							moveCom->jumpRequested = false;
+							moveCom->jumpBufferTimer = 0;
+						}
 					}
 
 					entity->movement->velocity.y += entity->movement->gravity * deltaTime;

@@ -26,6 +26,9 @@ State* IdleState::handleInput(Entity& owner, std::vector<Command>& commands) {
 }
 
 State* IdleState::update(Entity& owner, float deltaTime) {
+	if (owner.movement->jumpRequested) {
+		return new JumpingState();
+	}
 	return nullptr;
 }
 
