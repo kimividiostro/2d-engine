@@ -86,7 +86,7 @@ void Game::run()
 					auto collisionInfo = CollisionSystem::CheckEntityCollision(*player, *entity);
 					if (collisionInfo.collided) {
 						CollisionSystem::ResolveCollision(*player, collisionInfo);
-						if (entity->getType() == FLOOR || (entity->getType() == WALL && collisionInfo.axis == Y_AXIS)) {
+						if (entity->getType() == FLOOR || (entity->getType() == WALL && collisionInfo.axis == Y_AXIS && entity->transform->position.y > player->transform->position.y)) {
 							player->movement->velocity.y = 0;
 							player->movement->isOnGround = true;
 						}
