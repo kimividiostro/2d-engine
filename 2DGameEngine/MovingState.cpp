@@ -11,7 +11,7 @@ void MovingState::enter(Entity& owner) {
 	owner.movement->direction = m_direction;
 }
 
-State* MovingState::handleInput(Entity& owner, std::vector<Command>& commands) {
+State* MovingState::handleInput(Entity& owner, std::vector<Command>& commands, std::map<int, bool>& inputState) {
 	for (auto& command : commands) {
 		if (command.m_type == START) {
 			switch (command.m_name) {

@@ -6,7 +6,7 @@ void IdleState::enter(Entity& owner) {
 	std::cout << "Entered IdleState..." << std::endl;
 }
 
-State* IdleState::handleInput(Entity& owner, std::vector<Command>& commands) {
+State* IdleState::handleInput(Entity& owner, std::vector<Command>& commands, std::map<int, bool>& inputState) {
  	for(const Command& command : commands)
 	{
 		if (command.m_type == START) {

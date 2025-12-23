@@ -8,9 +8,8 @@ class Game {
 	EntityManager m_entityManager;
 	sf::RenderWindow m_window;
 	std::map<int, CommandName> m_inputMap;
+	std::map<int, bool> m_inputState;
 	std::vector<Command> m_commands;
-
-	InputState m_inputState;
 
 	int m_screenWidth = 800;
 	int m_screenHeight = 600;

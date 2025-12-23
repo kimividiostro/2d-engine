@@ -13,7 +13,10 @@ Game::Game() {
 	m_inputMap[sf::Keyboard::Up] = JUMP;
 	m_inputMap[sf::Keyboard::Space] = SHOOT;
 
-	m_inputState = InputState();
+	m_inputState[MOVE_LEFT] = false;
+	m_inputState[MOVE_RIGHT] = false;
+	m_inputState[JUMP] = false;
+	m_inputState[SHOOT] = false;
 
 	auto player = m_entityManager.CreateEntity(PLAYER);
 	player->transform = new CTransform(Vec2(m_screenWidth / 2, m_screenHeight / 2));
@@ -42,7 +45,7 @@ void Game::run()
 
 		processInput();
 		m_entityManager.Update();
-		if (m_inputState.shoot)
+		if (m_inputState[SHOOT])
 		{
 			Entity* projectile = nullptr;
 			auto playerPosition = m_entityManager.GetEntitiesByType(PLAYER)[0]->transform->position;
@@ -63,16 +66,18 @@ void Game::run()
 
 		for (auto entity : m_entityManager.GetAllEntities()) {
 			if (entity->state) {
-				auto newState = entity->state->handleInput(*entity, m_commands);
+				auto newState = entity->state->handleInput(*entity, m_commands, m_inputState);
 				if (newState) {
 					// TODO: add state pooling to reuse states
 					entity->state->exit(*entity);
+					delete entity->state;
 					entity->state = newState;
 					entity->state->enter(*entity);
 				}
 				newState = entity->state->update(*entity, deltaTime);
 				if (newState) {
 					entity->state->exit(*entity);
+					delete entity->state;
 					entity->state = newState;
 					entity->state->enter(*entity);
 				}
@@ -153,13 +158,13 @@ void Game::run()
 						if(e->getType() == ENEMY) {
 							m_entityManager.RemoveEntity(e);
 							m_entityManager.RemoveEntity(entity);
-							m_inputState.shoot = false;
+							m_inputState[SHOOT] = false;
 							spawnEnemy();
 							break;
 						}
 						if (e->getType() == WALL || e->getType() == FLOOR) {
 							m_entityManager.RemoveEntity(entity);
-							m_inputState.shoot = false;
+							m_inputState[SHOOT] = false;
 							break;
 						}
 					}
@@ -200,11 +205,13 @@ void Game::processInput() {
 		if (event.type == sf::Event::KeyPressed) {
 			Command command(START, commandName);
 			m_commands.push_back(command);
+			m_inputState[m_inputMap[event.key.code]] = true;
 		}
 
 		if (event.type == sf::Event::KeyReleased) {
 			Command command(END, commandName);
 			m_commands.push_back(command);
+			m_inputState[m_inputMap[event.key.code]] = false;
 		}
 	}
 }

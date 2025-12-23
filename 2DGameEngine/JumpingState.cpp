@@ -9,7 +9,7 @@ void JumpingState::enter(Entity& owner)
     owner.movement->isOnGround = false;
 }
 
-State* JumpingState::handleInput(Entity& owner, std::vector<Command>& commands)
+State* JumpingState::handleInput(Entity& owner, std::vector<Command>& commands, std::map<int, bool>& inputState)
 {
     for (auto& command : commands) {
         if (command.m_type == START) {
@@ -38,14 +38,18 @@ State* JumpingState::handleInput(Entity& owner, std::vector<Command>& commands)
                     owner.movement->direction = 0;
                 }
                 break;
-            case JUMP:
+            /*case JUMP:
                 owner.movement->velocity.y *= 0.4f;
-                break;
+                break;*/
             default:
                 break;
             }
         }
     }
+    if (!inputState[JUMP]) {
+        owner.movement->velocity.y *= 0.8f;
+    }
+
     return nullptr;
 }
 
