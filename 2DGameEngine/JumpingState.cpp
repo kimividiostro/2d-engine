@@ -9,9 +9,9 @@ void JumpingState::enter(Entity& owner)
     owner.movement->isOnGround = false;
 }
 
-State* JumpingState::handleInput(Entity& owner, std::vector<Command>& commands, std::map<int, bool>& inputState)
+State* JumpingState::handleInput(Entity& owner, InputManager& inputManager)
 {
-    for (auto& command : commands) {
+    for (auto& command : inputManager.getCommandsSinceLastFrame()) {
         if (command.m_type == START) {
             switch (command.m_name)
             {
@@ -46,7 +46,7 @@ State* JumpingState::handleInput(Entity& owner, std::vector<Command>& commands, 
             }
         }
     }
-    if (!inputState[JUMP]) {
+    if (!inputManager.getCommandState(JUMP)) {
         owner.movement->velocity.y *= 0.8f;
     }
 

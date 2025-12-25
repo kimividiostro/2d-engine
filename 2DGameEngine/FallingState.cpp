@@ -6,8 +6,8 @@ void FallingState::enter(Entity& owner) {
 	std::cout << "Entered FallingState" << std::endl;
 }
 
-State* FallingState::handleInput(Entity& owner, std::vector<Command>& commands, std::map<int, bool>& inputState) {
-    for (auto& command : commands) {
+State* FallingState::handleInput(Entity& owner, InputManager& inputManager) {
+    for (auto& command : inputManager.getCommandsSinceLastFrame()) {
         if (command.m_type == START) {
             switch (command.m_name)
             {

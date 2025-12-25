@@ -8,7 +8,7 @@ class MovingState : public State {
 public:
 	MovingState(short direction);
 	void enter(Entity& owner) override;
-	State* handleInput(Entity& owner, std::vector<Command>& commands, std::map<int, bool>& inputState) override;
+	State* handleInput(Entity& owner, InputManager& inputManager) override;
 	State* update(Entity& owner, float deltaTime) override;
 	void exit(Entity&) override;
 };

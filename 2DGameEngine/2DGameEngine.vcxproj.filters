@@ -23,9 +23,6 @@
     <Filter Include="Systems">
       <UniqueIdentifier>{5e1809cf-1982-4313-8bb1-7e3d8efa9948}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Commands">
-      <UniqueIdentifier>{5228eed8-c6b1-4dc7-ba90-e21c1ecd1352}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\State">
       <UniqueIdentifier>{9ae1bb2b-1d0b-456e-8d23-91f95a082e6e}</UniqueIdentifier>
     </Filter>
@@ -34,6 +31,12 @@
     </Filter>
     <Filter Include="Game\States\Player">
       <UniqueIdentifier>{48a73a7d-a428-435a-be5c-3f4020cfda5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Input">
+      <UniqueIdentifier>{612cf3f0-f193-42d4-bc7b-ce736f426730}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Input\Commands">
+      <UniqueIdentifier>{5228eed8-c6b1-4dc7-ba90-e21c1ecd1352}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,9 +55,6 @@
     <ClCompile Include="Game.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="InputState.h">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
@@ -62,7 +62,7 @@
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="Command.cpp">
-      <Filter>Core\Commands</Filter>
+      <Filter>Core\Input\Commands</Filter>
     </ClCompile>
     <ClCompile Include="State.cpp">
       <Filter>Core\State</Filter>
@@ -78,6 +78,12 @@
     </ClCompile>
     <ClCompile Include="FallingState.cpp">
       <Filter>Game\States\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="InputState.h">
+      <Filter>Core\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Core\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,7 +109,7 @@
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="Command.h">
-      <Filter>Core\Commands</Filter>
+      <Filter>Core\Input\Commands</Filter>
     </ClInclude>
     <ClInclude Include="State.h">
       <Filter>Core\State</Filter>
@@ -119,6 +125,9 @@
     </ClInclude>
     <ClInclude Include="FallingState.h">
       <Filter>Game\States\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Core\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

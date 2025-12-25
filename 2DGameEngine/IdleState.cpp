@@ -6,8 +6,8 @@ void IdleState::enter(Entity& owner) {
 	std::cout << "Entered IdleState..." << std::endl;
 }
 
-State* IdleState::handleInput(Entity& owner, std::vector<Command>& commands, std::map<int, bool>& inputState) {
- 	for(const Command& command : commands)
+State* IdleState::handleInput(Entity& owner, InputManager& inputManager) {
+ 	for(const Command& command : inputManager.getCommandsSinceLastFrame())
 	{
 		if (command.m_type == START) {
 			switch (command.m_name) {

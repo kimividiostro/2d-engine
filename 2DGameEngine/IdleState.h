@@ -5,7 +5,7 @@ class IdleState : public State {
 public:
     IdleState() = default;
     void enter(Entity& owner) override;
-    State* handleInput(Entity& owner, std::vector<Command>& commands, std::map<int, bool>& inputState) override;
+    State* handleInput(Entity& owner, InputManager& inputManager) override;
     State* update(Entity& owner, float deltaTime) override;
     void exit(Entity& owner) override;
 

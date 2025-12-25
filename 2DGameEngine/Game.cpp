@@ -8,15 +8,15 @@ Game::Game() {
 	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight), "My Game");
 	m_window.setFramerateLimit(m_fps);
 	
-	m_inputMap[sf::Keyboard::Left] = MOVE_LEFT;
-	m_inputMap[sf::Keyboard::Right] = MOVE_RIGHT;
-	m_inputMap[sf::Keyboard::Up] = JUMP;
-	m_inputMap[sf::Keyboard::Space] = SHOOT;
+	m_inputManager.registerCommand(sf::Keyboard::Left, MOVE_LEFT);
+	m_inputManager.registerCommand(sf::Keyboard::Right, MOVE_RIGHT);
+	m_inputManager.registerCommand(sf::Keyboard::Up, JUMP);
+	m_inputManager.registerCommand(sf::Keyboard::Space, SHOOT);
 
-	m_inputState[MOVE_LEFT] = false;
-	m_inputState[MOVE_RIGHT] = false;
-	m_inputState[JUMP] = false;
-	m_inputState[SHOOT] = false;
+	m_inputManager.setCommandState(MOVE_LEFT, false);
+	m_inputManager.setCommandState(MOVE_RIGHT, false);
+	m_inputManager.setCommandState(JUMP, false);
+	m_inputManager.setCommandState(SHOOT, false);
 
 	auto player = m_entityManager.CreateEntity(PLAYER);
 	player->transform = new CTransform(Vec2(m_screenWidth / 2, m_screenHeight / 2));
@@ -45,7 +45,7 @@ void Game::run()
 
 		processInput();
 		m_entityManager.Update();
-		if (m_inputState[SHOOT])
+		if (m_inputManager.getCommandState(SHOOT))
 		{
 			Entity* projectile = nullptr;
 			auto playerPosition = m_entityManager.GetEntitiesByType(PLAYER)[0]->transform->position;
@@ -66,7 +66,7 @@ void Game::run()
 
 		for (auto entity : m_entityManager.GetAllEntities()) {
 			if (entity->state) {
-				auto newState = entity->state->handleInput(*entity, m_commands, m_inputState);
+				auto newState = entity->state->handleInput(*entity, m_inputManager);
 				if (newState) {
 					// TODO: add state pooling to reuse states
 					entity->state->exit(*entity);
@@ -158,13 +158,13 @@ void Game::run()
 						if(e->getType() == ENEMY) {
 							m_entityManager.RemoveEntity(e);
 							m_entityManager.RemoveEntity(entity);
-							m_inputState[SHOOT] = false;
+							m_inputManager.setCommandState(SHOOT, false);
 							spawnEnemy();
 							break;
 						}
 						if (e->getType() == WALL || e->getType() == FLOOR) {
 							m_entityManager.RemoveEntity(entity);
-							m_inputState[SHOOT] = false;
+							m_inputManager.setCommandState(SHOOT, false);
 							break;
 						}
 					}
@@ -191,27 +191,25 @@ void Game::render() {
 void Game::processInput() {
 	sf::Event event;
 
-	m_commands.clear();
+	m_inputManager.clearCommands();
 	while (m_window.pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)
 			m_window.close();
 			
-		auto commandName = m_inputMap[event.key.code];
+		auto commandName = m_inputManager.getCommandNameByKey(event.key.code);
 		if (commandName == 0) {
 			continue;
 		}
 
 		if (event.type == sf::Event::KeyPressed) {
-			Command command(START, commandName);
-			m_commands.push_back(command);
-			m_inputState[m_inputMap[event.key.code]] = true;
+			m_inputManager.addCommand(START, commandName);
+			m_inputManager.setCommandState(commandName, true);
 		}
 
 		if (event.type == sf::Event::KeyReleased) {
-			Command command(END, commandName);
-			m_commands.push_back(command);
-			m_inputState[m_inputMap[event.key.code]] = false;
+			m_inputManager.addCommand(END, commandName);
+			m_inputManager.setCommandState(commandName, false);
 		}
 	}
 }
