@@ -81,6 +81,10 @@ float Vec2::distance(const Vec2& rhs) const {
 	return (*this - rhs).length();
 }
 
+float Vec2::dot(const Vec2& vec2) const {
+	return x * vec2.x + y * vec2.y;
+}
+
 std::string Vec2::toString() const {
 	return "Vec2(" + std::to_string(x) + ", " + std::to_string(y) + ")";
 }

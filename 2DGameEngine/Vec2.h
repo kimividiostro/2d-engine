@@ -26,6 +26,7 @@ public:
 	float length() const;
 	Vec2 normalize() const;
 	float distance(const Vec2& rhs) const;
+	float dot(const Vec2& vec2) const;
 
 	std::string toString() const;
 };
