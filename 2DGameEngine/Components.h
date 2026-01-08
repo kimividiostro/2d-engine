@@ -46,7 +46,7 @@ struct CMovement {
 	short direction;
 	float jumpVelocity;
 	float gravity;
-	bool isOnGround;
+	bool isOnGround = false;
 
 	// Jump buffering
 	float jumpBufferTime = 0.2f;
