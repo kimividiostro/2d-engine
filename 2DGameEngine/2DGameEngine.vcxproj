@@ -133,6 +133,7 @@
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="FallingState.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameplayCollisionSystem.cpp" />
     <ClCompile Include="IdleState.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InputState.h" />
@@ -142,8 +143,8 @@
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="MovingState.cpp" />
     <ClCompile Include="NumberGeneratorSystem.cpp" />
-    <ClCompile Include="State.cpp" />
     <ClCompile Include="Vec2.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Command.h" />
@@ -153,13 +154,16 @@
     <ClInclude Include="FallingState.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="CollisionSystem.h" />
+    <ClInclude Include="GameplayCollisionSystem.h" />
     <ClInclude Include="IdleState.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="JumpingState.h" />
     <ClInclude Include="MovingState.h" />
     <ClInclude Include="NumberGeneratorSystem.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="System.h" />
     <ClInclude Include="Vec2.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

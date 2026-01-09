@@ -7,7 +7,7 @@
 Game::Game() {
 	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight), "My Game");
 	m_window.setFramerateLimit(m_fps);
-	
+
 	m_inputManager.registerCommand(sf::Keyboard::Left, MOVE_LEFT);
 	m_inputManager.registerCommand(sf::Keyboard::Right, MOVE_RIGHT);
 	m_inputManager.registerCommand(sf::Keyboard::Up, JUMP);
@@ -18,7 +18,7 @@ Game::Game() {
 	m_inputManager.setCommandState(JUMP, false);
 	m_inputManager.setCommandState(SHOOT, false);
 
-	auto player = m_entityManager.CreateEntity(PLAYER);
+	auto player = m_world.m_entityManager.CreateEntity(PLAYER);
 	player->transform = new CTransform(Vec2(m_screenWidth / 2, m_screenHeight / 2));
 	player->shape = new CShape(30, 30, sf::Color::Green, sf::Color::White, 2.0f);
 	player->boundingBox = new CBoundingBox(30, 30);
@@ -44,27 +44,9 @@ void Game::run()
 		float deltaTime = clock.restart().asSeconds();
 
 		processInput();
-		m_entityManager.Update();
-		if (m_inputManager.getCommandState(SHOOT))
-		{
-			Entity* projectile = nullptr;
-			auto playerPosition = m_entityManager.GetEntitiesByType(PLAYER)[0]->transform->position;
-			if (m_entityManager.GetEntitiesByType(PROJECTILE).size() == 0) {
-				projectile = m_entityManager.CreateEntity(PROJECTILE);
-				auto mousePos = sf::Mouse::getPosition(m_window);
-				Vec2 target = Vec2(mousePos.x, mousePos.y);
-				auto bulletPath = (target - playerPosition).normalize() * 1000.0f;
-				projectile->shape = new CShape(5, 5, sf::Color::Yellow, sf::Color::White, 1.0f);
-				projectile->boundingBox = new CBoundingBox(5, 5);
-				projectile->transform = new CTransform(playerPosition);
-				projectile->movement = new CMovement(bulletPath);
-			}
-			else {
-				projectile = m_entityManager.GetEntitiesByType(PROJECTILE)[0];
-			}
-		}
-
-		for (auto entity : m_entityManager.GetAllEntities()) {
+		m_world.m_entityManager.Update();
+		m_world.m_collisionSystem.update(deltaTime);
+		for (auto entity : m_world.m_entityManager.GetAllEntities()) {
 			if (entity->state) {
 				auto newState = entity->state->handleInput(*entity, m_inputManager);
 				if (newState) {
@@ -84,31 +66,6 @@ void Game::run()
 
 			}
 			if (entity->transform) {
-
-				if (entity->getType() != PLAYER) {
-					auto player = m_entityManager.GetEntitiesByType(PLAYER)[0];
-					auto collisionInfo = CollisionSystem::CheckEntityCollision(*player, *entity);
-					if (collisionInfo.collided) {
-						CollisionSystem::ResolveCollision(*player, collisionInfo);
-						if (entity->getType() == FLOOR || (entity->getType() == WALL && collisionInfo.axis == Y_AXIS && entity->transform->position.y > player->transform->position.y)) {
-							player->movement->velocity.y = 0;
-							player->movement->isOnGround = true;
-						}
-					}
-					else if (entity->getType() == FLOOR) {
-						player->movement->isOnGround = false;
-					}
-				}
-
-				if (!CollisionSystem::InBoundsOfWindow(m_screenWidth, m_screenHeight, *entity)) {
-					if (entity->getType() == PROJECTILE) {
-						m_entityManager.RemoveEntity(entity);
-					}
-					if (entity->getType() == ENEMY) {
-						entity->movement->velocity *= -1;
-					}
-					CollisionSystem::ResetEntityPositionInsideWindow(m_screenWidth, m_screenHeight, *entity);
-				}
 
 				if (entity->movement) {
 					auto moveCom = entity->movement;
@@ -151,25 +108,6 @@ void Game::run()
 				}
 
 			}
-			// Collision detection between projectiles and enemies
-			if (entity->getType() == PROJECTILE) {
-				for (auto e : m_entityManager.GetAllEntities()) {
-					if(CollisionSystem::CheckEntityCollision(*e, *entity).collided) {
-						if(e->getType() == ENEMY) {
-							m_entityManager.RemoveEntity(e);
-							m_entityManager.RemoveEntity(entity);
-							m_inputManager.setCommandState(SHOOT, false);
-							spawnEnemy();
-							break;
-						}
-						if (e->getType() == WALL || e->getType() == FLOOR) {
-							m_entityManager.RemoveEntity(entity);
-							m_inputManager.setCommandState(SHOOT, false);
-							break;
-						}
-					}
-				}
-			}
 		}
 		render();
 	}
@@ -178,7 +116,7 @@ void Game::run()
 
 void Game::render() {
 	m_window.clear();
-	for (auto entity : m_entityManager.GetAllEntities()) {
+	for (auto entity : m_world.m_entityManager.GetAllEntities()) {
 		// Update SFML shape position
 		if (entity->transform && entity->shape) {
 			entity->shape->shape.setPosition(entity->transform->position.x, entity->transform->position.y);
@@ -215,7 +153,7 @@ void Game::processInput() {
 }
 
 void Game::spawnEnemy() {
-	auto enemy = m_entityManager.CreateEntity(ENEMY);
+	auto enemy = m_world.m_entityManager.CreateEntity(ENEMY);
 	enemy->shape = new CShape(20, 20, sf::Color::Red, sf::Color::White, 2.0f);
 	auto position = NumberGeneratorSystem::GenerateEntityPositionInsideWindow(m_screenWidth, m_screenHeight, *enemy);
 	enemy->transform = new CTransform(position);
@@ -223,27 +161,27 @@ void Game::spawnEnemy() {
 }
 
 void Game::createMap() {
-	auto floor = m_entityManager.CreateEntity(FLOOR);
+	auto floor = m_world.m_entityManager.CreateEntity(FLOOR);
 	floor->shape = new CShape(800, 100, sf::Color::Magenta, sf::Color::White, 2.0f);
 	floor->transform = new CTransform(Vec2(400, 500));
 	floor->boundingBox = new CBoundingBox(800, 100);
 
-	auto wall1 = m_entityManager.CreateEntity(WALL);
+	auto wall1 = m_world.m_entityManager.CreateEntity(WALL);
 	wall1->shape = new CShape(50, 150, sf::Color::Magenta, sf::Color::White, 2.0f);
 	wall1->transform = new CTransform(Vec2(600, 400));
 	wall1->boundingBox = new CBoundingBox(50, 150);
 
-	auto wall2 = m_entityManager.CreateEntity(WALL);
+	auto wall2 = m_world.m_entityManager.CreateEntity(WALL);
 	wall2->shape = new CShape(50, 100, sf::Color::Magenta, sf::Color::White, 2.0f);
 	wall2->transform = new CTransform(Vec2(500, 400));
 	wall2->boundingBox = new CBoundingBox(50, 100);
 
-	auto wall3 = m_entityManager.CreateEntity(WALL);
+	auto wall3 = m_world.m_entityManager.CreateEntity(WALL);
 	wall3->shape = new CShape(50, 50, sf::Color::Magenta, sf::Color::White, 2.0f);
 	wall3->transform = new CTransform(Vec2(400, 450));
 	wall3->boundingBox = new CBoundingBox(50, 50);
 
-	auto wall4 = m_entityManager.CreateEntity(WALL);
+	auto wall4 = m_world.m_entityManager.CreateEntity(WALL);
 	wall3->shape = new CShape(50, 50, sf::Color::Magenta, sf::Color::White, 2.0f);
 	wall3->transform = new CTransform(Vec2(400, 300));
 	wall3->boundingBox = new CBoundingBox(50, 50);

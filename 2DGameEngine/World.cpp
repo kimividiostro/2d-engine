@@ -1,0 +1,5 @@
+#include "World.h"
+
+World::World() : m_entityManager(), m_collisionSystem(*this){
+
+}

@@ -4,9 +4,11 @@
 #include "InputState.h"
 #include "Command.h"
 #include "InputManager.h"
+#include "World.h"
+#include "GameplayCollisionSystem.h"
 
 class Game {
-	EntityManager m_entityManager;
+	World m_world;
 	sf::RenderWindow m_window;
 	InputManager m_inputManager;
 

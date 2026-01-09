@@ -17,12 +17,6 @@
     <Filter Include="Game">
       <UniqueIdentifier>{04018c3a-b863-4e47-ad23-7cb3458c6436}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components">
-      <UniqueIdentifier>{f299c1e4-2a8a-44fe-a7fb-094816b1920b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Systems">
-      <UniqueIdentifier>{5e1809cf-1982-4313-8bb1-7e3d8efa9948}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\State">
       <UniqueIdentifier>{9ae1bb2b-1d0b-456e-8d23-91f95a082e6e}</UniqueIdentifier>
     </Filter>
@@ -37,6 +31,15 @@
     </Filter>
     <Filter Include="Core\Input\Commands">
       <UniqueIdentifier>{5228eed8-c6b1-4dc7-ba90-e21c1ecd1352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Systems">
+      <UniqueIdentifier>{701dc5d5-8760-41be-a219-5b112b069153}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Components">
+      <UniqueIdentifier>{f299c1e4-2a8a-44fe-a7fb-094816b1920b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Systems">
+      <UniqueIdentifier>{5e1809cf-1982-4313-8bb1-7e3d8efa9948}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -55,17 +58,8 @@
     <ClCompile Include="Game.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionSystem.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="NumberGeneratorSystem.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Command.cpp">
       <Filter>Core\Input\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>Core\State</Filter>
     </ClCompile>
     <ClCompile Include="IdleState.cpp">
       <Filter>Game\States\Player</Filter>
@@ -85,6 +79,18 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Core\Input</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionSystem.cpp">
+      <Filter>Core\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="NumberGeneratorSystem.cpp">
+      <Filter>Core\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="GameplayCollisionSystem.cpp">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h">
@@ -100,13 +106,7 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Components.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="NumberGeneratorSystem.h">
-      <Filter>Systems</Filter>
+      <Filter>Game\Components</Filter>
     </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Core\Input\Commands</Filter>
@@ -128,6 +128,21 @@
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Core\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>Core\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionSystem.h">
+      <Filter>Core\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="NumberGeneratorSystem.h">
+      <Filter>Core\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="GameplayCollisionSystem.h">
+      <Filter>Game\Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
