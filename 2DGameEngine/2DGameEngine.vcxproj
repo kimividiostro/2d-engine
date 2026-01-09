@@ -141,6 +141,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
+    <ClCompile Include="MovementSystem.cpp" />
     <ClCompile Include="MovingState.cpp" />
     <ClCompile Include="NumberGeneratorSystem.cpp" />
     <ClCompile Include="Vec2.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="IdleState.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="JumpingState.h" />
+    <ClInclude Include="MovementSystem.h" />
     <ClInclude Include="MovingState.h" />
     <ClInclude Include="NumberGeneratorSystem.h" />
     <ClInclude Include="State.h" />
