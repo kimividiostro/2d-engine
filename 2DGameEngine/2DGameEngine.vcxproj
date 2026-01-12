@@ -77,6 +77,7 @@
       <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\SFML-2.6.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -94,6 +95,7 @@
       <PreprocessorDefinitions>SFML_STATIC;SFML_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\SFML-2.6.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,6 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
+    <ClCompile Include="ComponentStorage.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="FallingState.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -138,6 +141,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InputState.h" />
     <ClCompile Include="JumpingState.cpp" />
+    <ClCompile Include="JumpSystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
@@ -150,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="Command.h" />
     <ClInclude Include="Components.h" />
+    <ClInclude Include="ComponentStorage.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="FallingState.h" />
@@ -159,6 +164,7 @@
     <ClInclude Include="IdleState.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="JumpingState.h" />
+    <ClInclude Include="JumpSystem.h" />
     <ClInclude Include="MovementSystem.h" />
     <ClInclude Include="MovingState.h" />
     <ClInclude Include="NumberGeneratorSystem.h" />

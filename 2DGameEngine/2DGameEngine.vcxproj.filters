@@ -35,11 +35,11 @@
     <Filter Include="Core\Systems">
       <UniqueIdentifier>{701dc5d5-8760-41be-a219-5b112b069153}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Components">
-      <UniqueIdentifier>{f299c1e4-2a8a-44fe-a7fb-094816b1920b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Systems">
       <UniqueIdentifier>{5e1809cf-1982-4313-8bb1-7e3d8efa9948}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Components">
+      <UniqueIdentifier>{f299c1e4-2a8a-44fe-a7fb-094816b1920b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +91,15 @@
     <ClCompile Include="World.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="MovementSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JumpSystem.cpp">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentStorage.cpp">
+      <Filter>Core\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h">
@@ -106,7 +115,7 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Components.h">
-      <Filter>Game\Components</Filter>
+      <Filter>Core\Components</Filter>
     </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Core\Input\Commands</Filter>
@@ -142,6 +151,13 @@
       <Filter>Core\Systems</Filter>
     </ClInclude>
     <ClInclude Include="GameplayCollisionSystem.h">
+      <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementSystem.h" />
+    <ClInclude Include="ComponentStorage.h">
+      <Filter>Core\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpSystem.h">
       <Filter>Game\Systems</Filter>
     </ClInclude>
   </ItemGroup>
