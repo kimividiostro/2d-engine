@@ -3,6 +3,18 @@
 #include <SFML/Graphics.hpp>
 #include "Vec2.h"
 
+
+struct Transform {};
+struct Movement {
+	Vec2 velocity;
+};
+struct JumpRequest {};
+struct JumpComponent {
+	float jumpVelocity;
+};
+
+
+
 struct CTransform {
 	Vec2 position;
 	Vec2 previousPosition;

@@ -97,9 +97,6 @@
     <ClCompile Include="JumpSystem.cpp">
       <Filter>Game\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentStorage.cpp">
-      <Filter>Core\Components</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h">

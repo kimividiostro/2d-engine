@@ -4,6 +4,8 @@
 
 class State;
 
+using EntityID = uint32_t;
+
 enum EntityType {
 	DEFAULT,
 	PLAYER,

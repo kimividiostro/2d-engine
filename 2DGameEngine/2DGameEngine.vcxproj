@@ -132,7 +132,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
-    <ClCompile Include="ComponentStorage.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="FallingState.cpp" />
     <ClCompile Include="Game.cpp" />

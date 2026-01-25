@@ -47,26 +47,26 @@ void Game::run()
 		m_world.m_entityManager.Update();
 		m_world.m_movementSystem.update(deltaTime);
 		m_world.m_collisionSystem.update(deltaTime);
-		for (auto entity : m_world.m_entityManager.GetAllEntities()) {
-			if (entity->state) {
-				auto newState = entity->state->handleInput(*entity, m_inputManager);
-				if (newState) {
-					// TODO: add state pooling to reuse states
-					entity->state->exit(*entity);
-					delete entity->state;
-					entity->state = newState;
-					entity->state->enter(*entity);
-				}
-				newState = entity->state->update(*entity, deltaTime);
-				if (newState) {
-					entity->state->exit(*entity);
-					delete entity->state;
-					entity->state = newState;
-					entity->state->enter(*entity);
-				}
+		//for (auto entity : m_world.m_entityManager.GetAllEntities()) {
+		//	if (entity->state) {
+		//		auto newState = entity->state->handleInput(*entity, m_inputManager);
+		//		if (newState) {
+		//			// TODO: add state pooling to reuse states
+		//			entity->state->exit(*entity);
+		//			delete entity->state;
+		//			entity->state = newState;
+		//			entity->state->enter(*entity);
+		//		}
+		//		newState = entity->state->update(*entity, deltaTime);
+		//		if (newState) {
+		//			entity->state->exit(*entity);
+		//			delete entity->state;
+		//			entity->state = newState;
+		//			entity->state->enter(*entity);
+		//		}
 
-			}
-		}
+		//	}
+		//}
 		render();
 	}
 
