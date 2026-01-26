@@ -12,6 +12,10 @@ struct JumpRequest {};
 struct JumpComponent {
 	float jumpVelocity;
 };
+struct RenderComponent {
+	RenderComponent() {};
+	sf::RectangleShape sfShape;
+};
 
 
 
@@ -28,8 +32,6 @@ struct CShape {
 	CShape(int width, int height, const sf::Color& fillColor, const sf::Color& outlineColor, float outlineThickness) {
 		shape.setSize(sf::Vector2f(width,height));
 		shape.setFillColor(fillColor);
-		//shape.setOutlineColor(outlineColor);
-		//shape.setOutlineThickness(outlineThickness);
 		shape.setOrigin(width/2, height/2); // Center the origin
 	}
 };

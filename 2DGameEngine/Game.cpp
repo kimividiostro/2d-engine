@@ -18,6 +18,15 @@ Game::Game() {
 	m_inputManager.setCommandState(JUMP, false);
 	m_inputManager.setCommandState(SHOOT, false);
 
+	EntityID playerId = 1;
+	
+	m_world.add<RenderComponent>(playerId);
+	auto& renderComp = m_world.get<RenderComponent>(playerId);
+	renderComp.sfShape.setPosition(m_screenWidth / 2,m_screenHeight / 2);
+	renderComp.sfShape.setSize(sf::Vector2f(50, 50));
+	renderComp.sfShape.setFillColor(sf::Color::Green);
+	renderComp.sfShape.setOrigin(50 / 2, 50 / 2); // Center the origin
+
 	auto player = m_world.m_entityManager.CreateEntity(PLAYER);
 	player->transform = new CTransform(Vec2(m_screenWidth / 2, m_screenHeight / 2));
 	player->shape = new CShape(30, 30, sf::Color::Green, sf::Color::White, 2.0f);
@@ -74,13 +83,18 @@ void Game::run()
 
 void Game::render() {
 	m_window.clear();
-	for (auto entity : m_world.m_entityManager.GetAllEntities()) {
-		// Update SFML shape position
-		if (entity->transform && entity->shape) {
-			entity->shape->shape.setPosition(entity->transform->position.x, entity->transform->position.y);
-			m_window.draw(entity->shape->shape);
-		}
+	auto entities = m_world.view<RenderComponent>();
+	for (auto e : entities) {
+		auto& render = m_world.get<RenderComponent>(e);
+		m_window.draw(render.sfShape);
 	}
+	//for (auto entity : m_world.m_entityManager.GetAllEntities()) {
+	//	// Update SFML shape position
+	//	if (entity->transform && entity->shape) {
+	//		entity->shape->shape.setPosition(entity->transform->position.x, entity->transform->position.y);
+	//		m_window.draw(entity->shape->shape);
+	//	}
+	//}
 	m_window.display();
 }
 

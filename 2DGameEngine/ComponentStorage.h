@@ -12,7 +12,7 @@ public:
 
 	T& get(EntityID e);
 
-	void add(EntityID e, T& c);
+	void add(EntityID e);
 
 	void remove(EntityID e);
 };
@@ -28,8 +28,8 @@ T& ComponentStorage<T>::get(EntityID e) {
 }
 
 template<typename T>
-void ComponentStorage<T>::add(EntityID e, T& c) {
-	data[e] = c;
+void ComponentStorage<T>::add(EntityID e) {
+	data[e] = T{};
 }
 
 template<typename T>

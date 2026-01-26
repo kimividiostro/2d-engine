@@ -61,8 +61,7 @@ bool World::has(EntityID e) {
 
 template<typename T>
 T& World::get(EntityID e) {
-	auto storage = this->getComponentStorage<T>().get(e);
-	return storage;
+	return this->getComponentStorage<T>().get(e);
 }
 
 // a collection of components types
