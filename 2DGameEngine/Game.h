@@ -14,12 +14,12 @@ class Game {
 	InputManager m_inputManager;
 
 	RenderingSystem m_renderingSystem = RenderingSystem(&m_world, &m_window);
+	InputSystem m_inputSystem = InputSystem(&m_window);
 
 	int m_screenWidth = 800;
 	int m_screenHeight = 600;
 	int m_fps = 60;
 
-	void processInput();
 	void spawnEnemy();
 	void createMap();
 

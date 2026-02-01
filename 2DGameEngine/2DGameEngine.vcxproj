@@ -139,6 +139,7 @@
     <ClCompile Include="IdleState.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InputState.h" />
+    <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="JumpingState.cpp" />
     <ClCompile Include="JumpSystem.cpp" />
     <ClCompile Include="main.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="GameplayCollisionSystem.h" />
     <ClInclude Include="IdleState.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="InputSystem.h" />
     <ClInclude Include="JumpingState.h" />
     <ClInclude Include="JumpSystem.h" />
     <ClInclude Include="MovementSystem.h" />

@@ -8,15 +8,15 @@ Game::Game() {
 	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight), "My Game");
 	m_window.setFramerateLimit(m_fps);
 
-	m_inputManager.registerCommand(sf::Keyboard::Left, MOVE_LEFT);
-	m_inputManager.registerCommand(sf::Keyboard::Right, MOVE_RIGHT);
-	m_inputManager.registerCommand(sf::Keyboard::Up, JUMP);
-	m_inputManager.registerCommand(sf::Keyboard::Space, SHOOT);
+	m_inputSystem.m_inputManager.registerCommand(sf::Keyboard::Left, MOVE_LEFT);
+	m_inputSystem.m_inputManager.registerCommand(sf::Keyboard::Right, MOVE_RIGHT);
+	m_inputSystem.m_inputManager.registerCommand(sf::Keyboard::Up, JUMP);
+	m_inputSystem.m_inputManager.registerCommand(sf::Keyboard::Space, SHOOT);
 
-	m_inputManager.setCommandState(MOVE_LEFT, false);
-	m_inputManager.setCommandState(MOVE_RIGHT, false);
-	m_inputManager.setCommandState(JUMP, false);
-	m_inputManager.setCommandState(SHOOT, false);
+	m_inputSystem.m_inputManager.setCommandState(MOVE_LEFT, false);
+	m_inputSystem.m_inputManager.setCommandState(MOVE_RIGHT, false);
+	m_inputSystem.m_inputManager.setCommandState(JUMP, false);
+	m_inputSystem.m_inputManager.setCommandState(SHOOT, false);
 
 	EntityID playerId = 1;
 	
@@ -56,39 +56,13 @@ void Game::run()
 	{
 		float deltaTime = clock.restart().asSeconds();
 
-		processInput();
+		m_inputSystem.update(deltaTime);
 		m_world.m_entityManager.Update();
 		m_world.m_movementSystem.update(deltaTime);
 		m_world.m_collisionSystem.update(deltaTime);
 		m_renderingSystem.update(deltaTime);
 	}
 
-}
-
-void Game::processInput() {
-	sf::Event event;
-
-	m_inputManager.clearCommands();
-	while (m_window.pollEvent(event))
-	{
-		if (event.type == sf::Event::Closed)
-			m_window.close();
-			
-		auto commandName = m_inputManager.getCommandNameByKey(event.key.code);
-		if (commandName == 0) {
-			continue;
-		}
-
-		if (event.type == sf::Event::KeyPressed) {
-			m_inputManager.addCommand(START, commandName);
-			m_inputManager.setCommandState(commandName, true);
-		}
-
-		if (event.type == sf::Event::KeyReleased) {
-			m_inputManager.addCommand(END, commandName);
-			m_inputManager.setCommandState(commandName, false);
-		}
-	}
 }
 
 void Game::spawnEnemy() {

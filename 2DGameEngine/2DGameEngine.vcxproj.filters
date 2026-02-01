@@ -100,6 +100,9 @@
     <ClCompile Include="RenderingSystem.cpp">
       <Filter>Core\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="InputSystem.cpp">
+      <Filter>Core\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h">
@@ -163,6 +166,9 @@
       <Filter>Game\Systems</Filter>
     </ClInclude>
     <ClInclude Include="RenderingSystem.h">
+      <Filter>Core\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem.h">
       <Filter>Core\Systems</Filter>
     </ClInclude>
   </ItemGroup>

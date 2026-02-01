@@ -1,29 +1,31 @@
 #include "InputSystem.h"
-#include"World.h"
+#include<iostream>
 
-void InputSystem::update()
+void InputSystem::update(float deltaTime)
 {
-	for (auto command : m_world.m_dependencies.m_inputManager->getCommandsSinceLastFrame()) 
-	{
-		if (command.m_type == START) 
-		{
-			switch (command.m_name)
-			{
-				case JUMP:
-				for (auto& player : m_world.view<Player>()) 
-				{
-					m_world.add<JumpRequest>(player, {});
-				}
-				break;
-			}
-		}
-		
-		else 
-		{
-			switch (command.m_type) 
-			{
+	sf::Event event;
 
-			}
+	m_inputManager.clearCommands();
+	while (m_window->pollEvent(event))
+	{
+		if (event.type == sf::Event::Closed)
+			m_window->close();
+
+		auto commandName = m_inputManager.getCommandNameByKey(event.key.code);
+		if (commandName == 0) {
+			continue;
+		}
+
+		if (event.type == sf::Event::KeyPressed) {
+			m_inputManager.addCommand(START, commandName);
+			m_inputManager.setCommandState(commandName, true);
+			std::cout << "START " << commandName << std::endl;
+		}
+
+		if (event.type == sf::Event::KeyReleased) {
+			m_inputManager.addCommand(END, commandName);
+			m_inputManager.setCommandState(commandName, false);
+			std::cout << "END " << commandName << std::endl;
 		}
 	}
 }

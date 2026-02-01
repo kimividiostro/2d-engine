@@ -1,11 +1,13 @@
 #pragma once
+#include"System.h"
 #include"InputManager.h"
 
-class World;
 
-class InputSystem {
-	World& m_world;
+class InputSystem : public System {
+private:
+	sf::RenderWindow* m_window;
 public:
-	InputSystem(World& world) : m_world(world) {}
-	void update();
+	InputManager m_inputManager;
+	InputSystem(sf::RenderWindow* window) : m_window(window) {}
+	void update(float deltaTime) override;
 };
