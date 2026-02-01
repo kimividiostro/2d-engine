@@ -20,12 +20,16 @@ Game::Game() {
 
 	EntityID playerId = 1;
 	
-	m_world.add<RenderComponent>(playerId);
-	auto& renderComp = m_world.get<RenderComponent>(playerId);
-	renderComp.sfShape.setPosition(m_screenWidth / 2,m_screenHeight / 2);
+	m_world.add<Transform>(playerId);
+	auto& transform = m_world.get<Transform>(playerId);
+	transform.position = Vec2(m_screenWidth / 2, m_screenHeight / 2);
+	
+	m_world.add<Render>(playerId);
+	auto& renderComp = m_world.get<Render>(playerId);
+	renderComp.sfShape.setPosition(transform.position.x,transform.position.y);
 	renderComp.sfShape.setSize(sf::Vector2f(50, 50));
 	renderComp.sfShape.setFillColor(sf::Color::Green);
-	renderComp.sfShape.setOrigin(50 / 2, 50 / 2); // Center the origin
+	renderComp.sfShape.setOrigin(25, 25); // Center the origin
 
 	auto player = m_world.m_entityManager.CreateEntity(PLAYER);
 	player->transform = new CTransform(Vec2(m_screenWidth / 2, m_screenHeight / 2));
@@ -56,46 +60,9 @@ void Game::run()
 		m_world.m_entityManager.Update();
 		m_world.m_movementSystem.update(deltaTime);
 		m_world.m_collisionSystem.update(deltaTime);
-		//for (auto entity : m_world.m_entityManager.GetAllEntities()) {
-		//	if (entity->state) {
-		//		auto newState = entity->state->handleInput(*entity, m_inputManager);
-		//		if (newState) {
-		//			// TODO: add state pooling to reuse states
-		//			entity->state->exit(*entity);
-		//			delete entity->state;
-		//			entity->state = newState;
-		//			entity->state->enter(*entity);
-		//		}
-		//		newState = entity->state->update(*entity, deltaTime);
-		//		if (newState) {
-		//			entity->state->exit(*entity);
-		//			delete entity->state;
-		//			entity->state = newState;
-		//			entity->state->enter(*entity);
-		//		}
-
-		//	}
-		//}
-		render();
+		m_renderingSystem.update(deltaTime);
 	}
 
-}
-
-void Game::render() {
-	m_window.clear();
-	auto entities = m_world.view<RenderComponent>();
-	for (auto e : entities) {
-		auto& render = m_world.get<RenderComponent>(e);
-		m_window.draw(render.sfShape);
-	}
-	//for (auto entity : m_world.m_entityManager.GetAllEntities()) {
-	//	// Update SFML shape position
-	//	if (entity->transform && entity->shape) {
-	//		entity->shape->shape.setPosition(entity->transform->position.x, entity->transform->position.y);
-	//		m_window.draw(entity->shape->shape);
-	//	}
-	//}
-	m_window.display();
 }
 
 void Game::processInput() {

@@ -91,11 +91,14 @@
     <ClCompile Include="World.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="MovementSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="JumpSystem.cpp">
       <Filter>Game\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementSystem.cpp">
+      <Filter>Game\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingSystem.cpp">
+      <Filter>Core\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -150,12 +153,17 @@
     <ClInclude Include="GameplayCollisionSystem.h">
       <Filter>Game\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="MovementSystem.h" />
     <ClInclude Include="ComponentStorage.h">
       <Filter>Core\Components</Filter>
     </ClInclude>
     <ClInclude Include="JumpSystem.h">
       <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementSystem.h">
+      <Filter>Game\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingSystem.h">
+      <Filter>Core\Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

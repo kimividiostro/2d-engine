@@ -4,17 +4,29 @@
 #include "Vec2.h"
 
 
-struct Transform {};
+struct Transform {
+	Transform() {}
+	Vec2 position;
+	float scale = 1.0f;
+};
+
 struct Movement {
 	Vec2 velocity;
 };
+
 struct JumpRequest {};
+
 struct JumpComponent {
 	float jumpVelocity;
 };
-struct RenderComponent {
-	RenderComponent() {};
+
+struct Render {
+	Render() {}
 	sf::RectangleShape sfShape;
+};
+
+struct BoundingBox {
+	int width, height;
 };
 
 
